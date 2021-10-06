@@ -1,2 +1,2 @@
 # React-Todo-App
-- a
+create-react-appを使用してReactでTodoアプリ作成しました。
