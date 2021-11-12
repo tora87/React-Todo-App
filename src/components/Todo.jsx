@@ -8,15 +8,23 @@ import EditIcon from '@mui/icons-material/Edit';
 export default function Todo(props) {
   const [status,setStatus] = useState(props.todo.status)
   const id = props.todo.id
+  const date = new Date(props.todo.created)
+  const dateString = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`
 
   const useStyles = makeStyles((theme) => ({
     box: {
       display: 'flex',
       justifyContent: 'space-between'
     },
-    text: {
+    textTask: {
+      width:200,
       fontSize: 18,
       letterSpacing:2
+    },
+    textCreated: {
+      fontSize: 18,
+      letterSpacing:2,
+      textAlign: 'center'
     },
     deleteBtn: {
       '&:hover':{
@@ -49,17 +57,26 @@ export default function Todo(props) {
       <ListItem className={classes.box}>
           <Checkbox checked={status} onChange={onChange}/>
           <ListItemText
-            className={classes.text}
+            className={classes.textTask}
             style={{
               textDecoration: status ? 'line-through' : 'none',
               color: status ? 'grey' : 'inherit'
             }}>
               {props.todo.task}
           </ListItemText>
+          <ListItemText
+            className={classes.textCreated}
+            style={{
+              textDecoration: status ? 'line-through' : 'none',
+              color: status ? 'grey' : 'inherit'
+            }}>
+              {dateString}
+          </ListItemText>
           <Chip 
             label={props.todo.status ? ' done ' : 'doing'}
             color={props.todo.status ? "success" : "primary"}
             variant="outlined" 
+            style={{marginLeft:10}}
           />
           <Tooltip
             arrow
@@ -85,7 +102,7 @@ export default function Todo(props) {
               onClick={doDelete} 
               style={{marginLeft:10}}
             >
-              <DeleteIcon />
+            <DeleteIcon />
             </IconButton>
           </Tooltip>
       </ListItem>

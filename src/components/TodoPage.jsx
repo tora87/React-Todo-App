@@ -5,7 +5,8 @@ import { makeStyles } from '@mui/styles'
 import { Container} from '@mui/material'
 import { useState, useEffect } from 'react'
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs, setDoc, doc ,deleteDoc, updateDoc} from 'firebase/firestore/lite'
+import { getFirestore, collection, getDocs, setDoc, doc ,deleteDoc, updateDoc,orderBy, query} from 'firebase/firestore/lite'
+import { PrintRounded } from '@mui/icons-material'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -26,9 +27,12 @@ export default function TodoPage() {
   const [todoInfo,setTodoInfo] = useState({})
 
   async function getData(db) {
-  const todosCol = collection(db, 'todos')
-  const todoSnapshot = await getDocs(todosCol)
+  const todosRef = collection(db, 'todos')
+  const q = query(todosRef,orderBy('created','desc'))
+  const todoSnapshot = await getDocs(q)
+  // const todoSnapshot = await getDocs(todosRef)
   const todoList = todoSnapshot.docs.map(doc => doc.data())
+
   setTodos(todoList)
   return todoList;
 }
@@ -64,7 +68,8 @@ export default function TodoPage() {
     await setDoc(doc(db,'todos',getMax().toString()),{
       id: getMax(),
       task:task,
-      status:false
+      status:false,
+      created: new Date().getTime()
     })
     getData(db)
   }
