@@ -5,6 +5,7 @@ import { Button, Dialog, DialogContent, DialogContentText,DialogActions, DialogT
 export default function Modal(props) {
   const [task,setTask] = useState(props.todoInfo.task)
   const id = props.todoInfo.id
+  const [error,setError] = useState(false)
 
   const useStyles = makeStyles(() => ({flex: {
       display:'flex',
@@ -15,6 +16,7 @@ export default function Modal(props) {
   const classes = useStyles();
 
   const onChange = e => {
+    e.target.value === '' ? setError(true) : setError(false)
     setTask(e.target.value)
   }
 
@@ -22,6 +24,17 @@ export default function Modal(props) {
     if(task === '') return
     props.changeName(id,task)
   }
+
+  // const check = () => {
+  //   let flg = false
+
+  //   if(task === ''){
+  //     flg = true
+  //     setError(true)
+  //   }
+
+  //   return flg
+  // }
 
   return (
     <Dialog open={props.open} onClose={props.closeHandle}>
@@ -32,7 +45,10 @@ export default function Modal(props) {
           <TextField
             size="small"
             onChange={onChange}
+            defaultValue={props.todoInfo.task}
             placeholder={props.todoInfo.task}
+            error={error}
+            helperText={error ? "Please enter something" : ""}
           />
           <Button
             variant="contained"
