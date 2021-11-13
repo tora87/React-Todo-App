@@ -1,12 +1,15 @@
-import Layout from './components/Layout';
-import TodoPage from './components/TodoPage';
+import { Layout } from './components/Layout';
+import { TodoPage } from './components/TodoPage';
+import { useEffect } from 'react'
 
-function App() {
+export const App = () => {
+  useEffect(() => {
+    document.title = 'React Todo'
+  }, [])
+
   return (
     <Layout>
       <TodoPage/>
     </Layout>
   );
 }
-
-export default App;

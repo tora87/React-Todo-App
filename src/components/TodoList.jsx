@@ -1,16 +1,19 @@
 import { List } from '@mui/material'
-import Todo from './Todo'
+import { Todo } from './Todo'
 
-export default function TodoList(props) {
+export const TodoList = ({ todos, removeTodo, openHandle, editStatus }) => {
   return (
     <List>
-      {props.todos.map( todo => {
-        return <Todo 
-                  key={todo.id}
-                  todo={todo}
-                  removeTodo={props.removeTodo}
-                  openHandle={props.openHandle}
-                  editStatus={props.editStatus}/>
+      {todos.map( todo => {
+        return (
+          <Todo 
+            key={todo.id}
+            todo={todo}
+            removeTodo={removeTodo}
+            openHandle={openHandle}
+            editStatus={editStatus}
+          />
+        )
       })}
     </List>
   )

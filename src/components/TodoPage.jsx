@@ -1,12 +1,22 @@
-import TodoForm from './TodoForm'
-import TodoList from './TodoList'
-import Modal from './Modal'
+import { TodoForm } from './TodoForm'
+import { TodoList } from './TodoList'
+import { Modal } from './Modal'
 import { makeStyles } from '@mui/styles'
 import { Container} from '@mui/material'
 import { useState, useEffect } from 'react'
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs, setDoc, doc ,deleteDoc, updateDoc,orderBy, query} from 'firebase/firestore/lite'
-import { PrintRounded } from '@mui/icons-material'
+import 
+{ 
+  getFirestore,
+  collection,
+  getDocs,
+  setDoc,
+  doc,
+  deleteDoc,
+  updateDoc,
+  orderBy, 
+  query
+} from 'firebase/firestore/lite'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -21,32 +31,20 @@ const app = initializeApp(firebaseConfig)
 
 const db = getFirestore(app)
 
-export default function TodoPage() {
+export const TodoPage = () => {
   const [todos,setTodos] = useState([])
   const [open,setOpen] = useState(false)
   const [todoInfo,setTodoInfo] = useState({})
 
   async function getData(db) {
-  const todosRef = collection(db, 'todos')
-  const q = query(todosRef,orderBy('created','desc'))
-  const todoSnapshot = await getDocs(q)
-  // const todoSnapshot = await getDocs(todosRef)
-  const todoList = todoSnapshot.docs.map(doc => doc.data())
+    const todosRef = collection(db, 'todos')
+    const q = query(todosRef,orderBy('created','desc'))
+    const todoSnapshot = await getDocs(q)
+    const todoList = todoSnapshot.docs.map(doc => doc.data())
 
-  setTodos(todoList)
-  return todoList;
-}
-
-  const useStyles = makeStyles((theme) => ({
-    container: {
-      padding: 50,
-      textAlign: 'center'
-    },
-    h1: {
-      margin: '30px 0',
-    }
-  }))
-  const classes = useStyles();
+    setTodos(todoList)
+    return todoList;
+  }
 
   useEffect(() => {
     getData(db)
@@ -103,6 +101,19 @@ export default function TodoPage() {
   const closeHandle = () => {
     setOpen(false)
   }
+
+
+  const useStyles = makeStyles(() => ({
+    container: {
+      padding: 50,
+      textAlign: 'center'
+    },
+    h1: {
+      margin: '30px 0',
+    }
+  }))
+
+  const classes = useStyles();
 
   return (
     <Container maxWidth="sm" className={classes.container}>

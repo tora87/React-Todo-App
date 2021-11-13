@@ -1,26 +1,17 @@
 import { makeStyles } from '@mui/styles'
-import { TextField,Button,Box} from '@mui/material'
 import { useState, useRef} from 'react'
+import 
+{ 
+  TextField,
+  Button,
+  Box
+} from '@mui/material'
 
-export default function TodoForm(props) {
-
-  const useStyles = makeStyles((theme) => ({
-    flex: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    textField: {
-      width: 400,
-    }
-  }))
-  const classes = useStyles();
+export const TodoForm = (props) =>  {
 
   const [text,setText] = useState('')
   const [error,setError] = useState(false)
   const inputRef = useRef(null)
-
-  console.log(inputRef)
 
   const onChange = e => {
     e.target.value === '' ?  setError(true) : setError(false)
@@ -45,6 +36,19 @@ export default function TodoForm(props) {
 
     return flg
   }
+
+  const useStyles = makeStyles(() => ({
+    flex: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    textField: {
+      width: 400,
+    }
+  }))
+
+  const classes = useStyles();
 
   return (
     <Box className={classes.flex}>
