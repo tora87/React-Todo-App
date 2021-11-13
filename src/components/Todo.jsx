@@ -1,17 +1,38 @@
 import { useState } from 'react'
 import { makeStyles } from '@mui/styles'
-import { ListItem, ListItemText ,Tooltip, IconButton,Checkbox, Chip} from '@mui/material'
-import { Divider } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import 
+{ 
+  ListItem, 
+  ListItemText,
+  Tooltip,
+  IconButton,
+  Checkbox,
+  Chip,
+  Divider
+} from '@mui/material'
 
-export default function Todo(props) {
-  const [status,setStatus] = useState(props.todo.status)
-  const id = props.todo.id
-  const date = new Date(props.todo.created)
+export const Todo = ({ todo, removeTodo, openHandle, editStatus}) => {
+  const [status,setStatus] = useState(todo.status)
+  const id = todo.id
+  const date = new Date(todo.created)
   const dateString = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`
 
-  const useStyles = makeStyles((theme) => ({
+  const doDelete = () => {
+    removeTodo(todo.id)
+  }
+
+  const doEdit = () => {
+    openHandle(todo)
+  }
+
+  const onChange = () => {
+    setStatus(!status)
+    editStatus(id,!status)
+  }
+
+  const useStyles = makeStyles(() => ({
     box: {
       display: 'flex',
       justifyContent: 'space-between'
@@ -37,32 +58,20 @@ export default function Todo(props) {
       }
     }
   }))
+
   const classes = useStyles();
-
-  const doDelete = () => {
-    props.removeTodo(props.todo.id)
-  }
-
-  const doEdit = () => {
-    props.openHandle(props.todo)
-  }
-
-  const onChange = () => {
-    setStatus(!status)
-    props.editStatus(id,!status)
-  }
 
   return (
     <>
       <ListItem className={classes.box}>
-          <Checkbox checked={status} onChange={onChange}/>
+          <Checkbox checked={status} onChange={onChange} />
           <ListItemText
             className={classes.textTask}
             style={{
               textDecoration: status ? 'line-through' : 'none',
               color: status ? 'grey' : 'inherit'
             }}>
-              {props.todo.task}
+              {todo.task}
           </ListItemText>
           <ListItemText
             className={classes.textCreated}
@@ -73,8 +82,8 @@ export default function Todo(props) {
               {dateString}
           </ListItemText>
           <Chip 
-            label={props.todo.status ? ' done ' : 'doing'}
-            color={props.todo.status ? "success" : "primary"}
+            label={todo.status ? ' done ' : 'doing'}
+            color={todo.status ? "success" : "primary"}
             variant="outlined" 
             style={{marginLeft:10}}
           />
