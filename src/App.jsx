@@ -1,4 +1,3 @@
-import { Layout } from './components/Layout';
 import { TodoPage } from './components/TodoPage';
 import { useEffect } from 'react'
 
@@ -8,8 +7,6 @@ export const App = () => {
   }, [])
 
   return (
-    <Layout>
-      <TodoPage/>
-    </Layout>
+    <TodoPage/>
   );
 }
